@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #a8a8a8 0%, #666666 100%);
+            margin-top: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .car-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .car-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .car-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .car-info-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .car-info-item strong {
+            color: #667eea;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .total-cost {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .user-profile {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .user-profile h2 {
+            margin-bottom: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.2em;
+        }
+
+        .ds-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .ds-btn {
+            padding: 12px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .ds-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .ds-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .grid-2,
+            .ds-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .car-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="screen">
+            <div class="header">
+                <h1>🚗 Car Management System</h1>
+                <p>Professional Car Rental Management</p>
+            </div>
+            <div class="menu">
+                <button class="btn" onclick="showAdminLogin()">
+                    👨‍💼 Admin Login
+                    <span>→</span>
+                </button>
+                <button class="btn btn-secondary" onclick="showUserAccess()">
+                    👤 User Access
+                    <span>→</span>
+                </button>
+                <button class="btn btn-info" onclick="showDataStatus()">
+                    💾 View Storage Status
+                    <span>→</span>
+                </button>
+                <button class="btn btn-danger" onclick="clearAllData()">
+                    🗑️ Clear All Data
+                    <span>→</span>
+                </button>
+                <button class="btn btn-danger" onclick="exitApp()">
+                    🚪 Exit
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Login -->
+        <div id="adminLogin" class="screen hidden">
+            <div class="header">
+                <h1>Admin Login</h1>
+            </div>
+            <div id="adminAlert"></div>
+            <div class="input-group">
+                <label>Password:</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password">
+            </div>
+            <button class="btn" onclick="adminLoginSubmit()">Login</button>
+            <button class="btn btn-back" onclick="showScreen('mainMenu')">Back</button>
+        </div>
+
+        <!-- Admin Menu -->
+        <div id="adminMenu" class="screen hidden">
+            <div class="header">
+                <h1>Admin Panel</h1>
+                <p>Manage Car Inventory</p>
+            </div>
+            <div class="menu">
+                <button class="btn" onclick="showAdminInsert()">
+                    ➕ Insert Car
+                </button>
+                <button class="btn btn-secondary" onclick="showAdminDelete()">
+                    🗑️ Delete Car
+                </button>
+                <button class="btn btn-success" onclick="showAdminSearch()">
+                    🔍 Search Car
+                </button>
+                <button class="btn btn-info" onclick="showAdminDisplay()">
+                    📋 Display Cars
+                </button>
+                <button class="btn btn-back" onclick="adminLogout()">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Insert -->
+        <div id="adminInsert" class="screen hidden">
+            <div class="header">
+                <h1>Insert Car</h1>
+            </div>
+            <div id="insertAlert"></div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="insertDS">
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack</option>
+                    <option value="queue">Queue</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Car ID:</label>
+                <input type="number" id="insertID" placeholder="Enter car ID">
+            </div>
+            <div class="input-group">
+                <label>Brand:</label>
+                <input type="text" id="insertBrand" placeholder="Enter brand">
+            </div>
+            <div class="input-group">
+                <label>Model:</label>
+                <input type="text" id="insertModel" placeholder="Enter model">
+            </div>
+            <div class="input-group">
+                <label>Price (per week):</label>
+                <input type="number" step="0.01" id="insertPrice" placeholder="Enter price">
+            </div>
+            <button class="btn" onclick="adminInsertCar()">Insert Car</button>
+            <button class="btn btn-back" onclick="showScreen('adminMenu')">Back</button>
+        </div>
+
+        <!-- Admin Delete -->
+        <div id="adminDelete" class="screen hidden">
+            <div class="header">
+                <h1>Delete Car</h1>
+            </div>
+            <div id="deleteAlert"></div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="deleteDS">
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack (Pop)</option>
+                    <option value="queue">Queue (Dequeue)</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div class="input-group" id="deleteIDGroup">
+                <label>Car ID:</label>
+                <input type="number" id="deleteID" placeholder="Enter car ID to delete">
+            </div>
+            <button class="btn btn-secondary" onclick="adminDeleteCar()">Delete Car</button>
+            <button class="btn btn-back" onclick="showScreen('adminMenu')">Back</button>
+        </div>
+
+        <!-- Admin Search -->
+        <div id="adminSearch" class="screen hidden">
+            <div class="header">
+                <h1>Search Car</h1>
+            </div>
+            <div id="searchAlert"></div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="searchDS">
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack</option>
+                    <option value="queue">Queue</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Car ID:</label>
+                <input type="number" id="searchID" placeholder="Enter car ID to search">
+            </div>
+            <button class="btn btn-success" onclick="adminSearchCar()">Search</button>
+            <button class="btn btn-back" onclick="showScreen('adminMenu')">Back</button>
+        </div>
+
+        <!-- Admin Display -->
+        <div id="adminDisplay" class="screen hidden">
+            <div class="header">
+                <h1>Display Cars</h1>
+            </div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="displayDS" onchange="adminDisplayCars()">
+                    <option value="">-- Select --</option>
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack</option>
+                    <option value="queue">Queue</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div id="displayContent"></div>
+            <button class="btn btn-back" onclick="showScreen('adminMenu')">Back</button>
+        </div>
+
+        <!-- User Access -->
+        <div id="userAccess" class="screen hidden">
+            <div class="header">
+                <h1>User Access</h1>
+            </div>
+            <div class="menu">
+                <button class="btn" onclick="showUserLogin()">
+                    🔑 Login
+                </button>
+                <button class="btn btn-secondary" onclick="showUserRegister()">
+                    📝 Register
+                </button>
+                <button class="btn btn-back" onclick="showScreen('mainMenu')">
+                    ← Back to Main Menu
+                </button>
+            </div>
+        </div>
+
+        <!-- User Register -->
+        <div id="userRegister" class="screen hidden">
+            <div class="header">
+                <h1>User Registration</h1>
+            </div>
+            <div id="registerAlert"></div>
+            <div class="input-group">
+                <label>Username:</label>
+                <input type="text" id="regUsername" placeholder="Enter username">
+            </div>
+            <div class="input-group">
+                <label>Password:</label>
+                <input type="password" id="regPassword" placeholder="Enter password">
+            </div>
+            <button class="btn" onclick="userRegister()">Register</button>
+            <button class="btn btn-back" onclick="showScreen('userAccess')">Back</button>
+        </div>
+
+        <!-- User Login -->
+        <div id="userLogin" class="screen hidden">
+            <div class="header">
+                <h1>User Login</h1>
+            </div>
+            <div id="loginAlert"></div>
+            <div class="input-group">
+                <label>Username:</label>
+                <input type="text" id="loginUsername" placeholder="Enter username">
+            </div>
+            <div class="input-group">
+                <label>Password:</label>
+                <input type="password" id="loginPassword" placeholder="Enter password">
+            </div>
+            <button class="btn" onclick="userLogin()">Login</button>
+            <button class="btn btn-back" onclick="showScreen('userAccess')">Back</button>
+        </div>
+
+        <!-- User Menu -->
+        <div id="userMenu" class="screen hidden">
+            <div class="header">
+                <h1>User Cart</h1>
+                <p id="userWelcome"></p>
+            </div>
+            <div class="menu">
+                <button class="btn" onclick="showUserInsert()">
+                    🛒 Add to Cart
+                </button>
+                <button class="btn btn-secondary" onclick="showUserDelete()">
+                    ❌ Remove from Cart
+                </button>
+                <button class="btn btn-success" onclick="showUserSearch()">
+                    🔍 Search Admin Stock
+                </button>
+                <button class="btn btn-info" onclick="showUserDisplay()">
+                    📋 Display
+                </button>
+                <button class="btn btn-back" onclick="userLogout()">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- User Insert -->
+        <div id="userInsert" class="screen hidden">
+            <div class="header">
+                <h1>Add to Cart</h1>
+            </div>
+            <div id="userInsertAlert"></div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="userInsertDS">
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack</option>
+                    <option value="queue">Queue</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Car ID from Admin Stock:</label>
+                <input type="number" id="userInsertID" placeholder="Enter car ID">
+            </div>
+            <button class="btn" onclick="userAddToCart()">Add to Cart</button>
+            <button class="btn btn-back" onclick="showScreen('userMenu')">Back</button>
+        </div>
+
+        <!-- User Delete -->
+        <div id="userDelete" class="screen hidden">
+            <div class="header">
+                <h1>Remove from Cart</h1>
+            </div>
+            <div id="userDeleteAlert"></div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="userDeleteDS">
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack (Pop)</option>
+                    <option value="queue">Queue (Dequeue)</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div class="input-group" id="userDeleteIDGroup">
+                <label>Car ID:</label>
+                <input type="number" id="userDeleteID" placeholder="Enter car ID to remove">
+            </div>
+            <button class="btn btn-secondary" onclick="userRemoveFromCart()">Remove</button>
+            <button class="btn btn-back" onclick="showScreen('userMenu')">Back</button>
+        </div>
+
+        <!-- User Search -->
+        <div id="userSearch" class="screen hidden">
+            <div class="header">
+                <h1>Search Admin Stock</h1>
+            </div>
+            <div id="userSearchAlert"></div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="userSearchDS">
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack</option>
+                    <option value="queue">Queue</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Car ID:</label>
+                <input type="number" id="userSearchID" placeholder="Enter car ID">
+            </div>
+            <button class="btn btn-success" onclick="userSearchCar()">Search</button>
+            <button class="btn btn-back" onclick="showScreen('userMenu')">Back</button>
+        </div>
+
+        <!-- User Display -->
+        <div id="userDisplay" class="screen hidden">
+            <div class="header">
+                <h1>Display</h1>
+            </div>
+            <div class="input-group">
+                <label>Display Type:</label>
+                <select id="userDisplayType">
+                    <option value="admin">Admin Stock</option>
+                    <option value="cart">My Cart</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Select Data Structure:</label>
+                <select id="userDisplayDS" onchange="userDisplayCars()">
+                    <option value="">-- Select --</option>
+                    <option value="array">Array</option>
+                    <option value="list">Linked List</option>
+                    <option value="stack">Stack</option>
+                    <option value="queue">Queue</option>
+                    <option value="graph">Graph</option>
+                    <option value="tree">Binary Search Tree</option>
+                </select>
+            </div>
+            <div id="userDisplayContent"></div>
+            <button class="btn btn-back" onclick="showScreen('userMenu')">Back</button>
+        </div>
+    </div>
+
+    <script src="car.js"></script>
+</body>
+</html>

@@ -9,12 +9,14 @@ A comprehensive web-based car rental management system implementing six differen
 ## 📋 Table of Contents
 
 - [Features](#features)
+- [Demo](#demo)
 - [Data Structures](#data-structures)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
 - [Project Structure](#project-structure)
 - [Technical Details](#technical-details)
+- [Contributing](#contributing)
 
 ## ✨ Features
 
@@ -282,3 +284,4 @@ Noshin Nawar
 ⭐ **Star this repo if you find it helpful!**
 
 Made with ❤️ by [Noshin Nawar]
+

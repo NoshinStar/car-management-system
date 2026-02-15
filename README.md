@@ -2,7 +2,6 @@
 
 A comprehensive web-based car rental management system implementing six different data structures with localStorage persistence.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
@@ -10,15 +9,12 @@ A comprehensive web-based car rental management system implementing six differen
 ## 📋 Table of Contents
 
 - [Features](#features)
-- [Demo](#demo)
 - [Data Structures](#data-structures)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
 - [Project Structure](#project-structure)
 - [Technical Details](#technical-details)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## ✨ Features
 
@@ -89,7 +85,7 @@ git clone https://github.com/NoshinStar/car-management-system.git
 cd car-management-system
 ```
 
-2. Open `car-management.html` in your web browser
+2. Open `car.html` in your web browser
 
 ### Option 2: GitHub Pages
 
